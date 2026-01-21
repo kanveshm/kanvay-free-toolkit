@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delegation Readiness Scorecard | KANVAY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 80px 40px; }
+        
+        .header { 
+            margin-bottom: 80px; 
+            padding-bottom: 40px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .logo { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            color: #666666;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        
+        .header h1 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        .header p { 
+            font-size: 1.125rem;
+            color: #666666;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        
+        .card { 
+            background: #fafafa;
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            border-radius: 2px;
+        }
+        
+        .card h2 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        .card h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+            letter-spacing: -0.01em;
+        }
+        
+        .card h4 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+            letter-spacing: -0.005em;
+        }
+        
+        .card p { 
+            color: #4a4a4a;
+            margin-bottom: 24px;
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .hero-card { 
+            background: linear-gradient(to bottom, #f9f9f9 0%, #ffffff 100%);
+            border: 1px solid #e8e8e8;
+        }
+        
+        .section-label { 
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #999999;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e8e8e8, transparent);
+            margin: 50px 0;
+        }
+        
+        .scorecard-question { 
+            background: #fafafa;
+            border: 1px solid #e8e8e8;
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .scorecard-question:hover { 
+            background: #f5f5f5;
+        }
+        
+        .scorecard-question p { 
+            margin-bottom: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        
+        .score-buttons { 
+            display: flex;
+            gap: 12px;
+        }
+        
+        .score-btn { 
+            padding: 12px 24px;
+            border: 1px solid #e8e8e8;
+            background: #ffffff;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9375rem;
+            color: #1a1a1a;
+            border-radius: 2px;
+        }
+        
+        .score-btn:hover { 
+            background: #fafafa;
+            border-color: #1a1a1a;
+        }
+        
+        .score-btn.selected { 
+            background: #1a1a1a;
+            color: #ffffff;
+            border-color: #1a1a1a;
+        }
+        
+        .calculate-btn { 
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 18px 40px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 40px 0;
+            width: 100%;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .calculate-btn:hover { 
+            background: #2a2a2a;
+        }
+        
+        .results { 
+            display: none;
+        }
+        
+        .results.show { 
+            display: block;
+        }
+        
+        .score-box { 
+            background: linear-gradient(to bottom, #f9f9f9 0%, #ffffff 100%);
+            border: 1px solid #e8e8e8;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 4px;
+        }
+        
+        .score-box h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 4rem;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            letter-spacing: -0.03em;
+        }
+        
+        .score-box p { 
+            color: #999999;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+        
+        .cta-card { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 60px 50px;
+            margin-top: 60px;
+            border-radius: 4px;
+        }
+        
+        .cta-card h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 1.75rem;
+            margin-bottom: 24px;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }
+        
+        .cta-card p { 
+            color: #b3b3b3;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 60px 24px; }
+            .header { margin-bottom: 60px; padding-bottom: 32px; }
+            .header h1 { font-size: 2.25rem; }
+            .card { padding: 40px 32px; margin-bottom: 32px; }
+            .card h2 { font-size: 1.5rem; }
+            .cta-card { padding: 40px 32px; }
+            .score-buttons { flex-wrap: wrap; }
+            .score-box { padding: 40px 28px; }
+            .score-box h3 { font-size: 3rem; }
+            .section-divider { margin: 40px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">KANVAY</div>
+            <h1>Delegation Readiness Scorecard</h1>
+            <p>15 questions to diagnose exactly where your delegation infrastructure breaks.</p>
+        </div>
+
+        <div class="card hero-card">
+            <div class="section-label">Resource 03</div>
+            <h2>Delegation Readiness Scorecard</h2>
+            <p>Most delegation fails not because of the person, but because the system wasn't ready. This shows you where.</p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>How It Works</h3>
+            <p>Answer 15 questions across three categories: Information Architecture, Communication Systems, and Delegation Infrastructure.</p>
+            
+            <div style="background: #f5f5f5; padding: 24px; border: 1px solid #e8e8e8; margin-top: 32px; border-radius: 4px;">
+                <p style="margin: 0 0 12px 0; font-weight: 500; color: #1a1a1a;">Score each question:</p>
+                <p style="margin: 0; color: #666666; font-size: 0.9375rem;">0 = No/Never | 1 = Sometimes/Partially | 2 = Yes/Always</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-label">Section 01</div>
+            <h3>Information Architecture</h3>
+            
+            <div class="scorecard-question">
+                <p>1. Can someone find any file in your system in under 30 seconds without asking you?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q1', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q1', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q1', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>2. Is there a clear naming convention that anyone can follow?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q2', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q2', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q2', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>3. Do you have documented folder logic (what goes where and why)?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q3', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q3', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q3', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>4. Can you grant access to your systems without needing to explain how they're organized?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q4', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q4', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q4', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>5. Could you go on vacation for 2 weeks and someone could still find everything?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q5', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q5', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q5', 2)">2</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-label">Section 02</div>
+            <h3>Communication Systems</h3>
+            
+            <div class="scorecard-question">
+                <p>6. Does your inbox have clear categories/labels that route emails automatically?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q6', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q6', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q6', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>7. Can someone else tell what's urgent vs what can wait just by looking at your inbox?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q7', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q7', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q7', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>8. Do you have templates for common responses?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q8', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q8', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q8', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>9. Is there a clear system for tracking "waiting on someone else" items?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q9', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q9', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q9', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>10. Could an assistant process 80% of your inbox without asking you questions?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q10', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q10', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q10', 2)">2</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-label">Section 03</div>
+            <h3>Delegation Infrastructure</h3>
+            
+            <div class="scorecard-question">
+                <p>11. Do you have written SOPs for recurring tasks?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q11', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q11', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q11', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>12. Is there a clear handoff process when you delegate something?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q12', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q12', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q12', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>13. Do you have a system that shows what's in progress vs what's complete?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q13', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q13', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q13', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>14. Can you track delegated items without relying on memory?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q14', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q14', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q14', 2)">2</button>
+                </div>
+            </div>
+
+            <div class="scorecard-question">
+                <p>15. Could a new assistant understand your systems in under 2 hours?</p>
+                <div class="score-buttons">
+                    <button class="score-btn" onclick="setScore('q15', 0)">0</button>
+                    <button class="score-btn" onclick="setScore('q15', 1)">1</button>
+                    <button class="score-btn" onclick="setScore('q15', 2)">2</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateScore()">Calculate Your Score</button>
+
+        <div id="results" class="results">
+            <div class="score-box">
+                <p>YOUR SCORE</p>
+                <h3 id="totalScore">0</h3>
+                <p>OUT OF 30</p>
+            </div>
+
+            <div class="card">
+                <h3>What This Means</h3>
+                <div id="interpretation"></div>
+            </div>
+
+            <div class="card">
+                <h3>What To Fix First</h3>
+                <div id="recommendations"></div>
+            </div>
+        </div>
+
+        <div class="cta-card">
+            <h3>Fix the structure first.</h3>
+            <p>Before hiring better people, build better systems.</p>
+            <p>Custom packages available for inbox, files, and delegation systems.</p>
+        </div>
+    </div>
+
+    <script>
+        const scores = {
+            q1: null, q2: null, q3: null, q4: null, q5: null,
+            q6: null, q7: null, q8: null, q9: null, q10: null,
+            q11: null, q12: null, q13: null, q14: null, q15: null
+        };
+        
+        function setScore(question, value) {
+            scores[question] = value;
+            const buttons = event.target.parentElement.querySelectorAll('.score-btn');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+        
+        function calculateScore() {
+            const total = Object.values(scores).reduce((sum, val) => sum + (val || 0), 0);
+            const section1 = (scores.q1 || 0) + (scores.q2 || 0) + (scores.q3 || 0) + (scores.q4 || 0) + (scores.q5 || 0);
+            const section2 = (scores.q6 || 0) + (scores.q7 || 0) + (scores.q8 || 0) + (scores.q9 || 0) + (scores.q10 || 0);
+            const section3 = (scores.q11 || 0) + (scores.q12 || 0) + (scores.q13 || 0) + (scores.q14 || 0) + (scores.q15 || 0);
+            
+            document.getElementById('totalScore').textContent = total;
+            
+            let interpretation = '';
+            let recommendations = '';
+            
+            if (total >= 25) {
+                interpretation = '<p>Your systems are delegation-ready. This is rare. You have strong foundations across all three areas.</p>';
+                recommendations = '<p>Your systems are in good shape. Continue maintaining them and consider documenting your approach for future hires.</p>';
+            } else if (total >= 15) {
+                interpretation = '<p>You have foundations but gaps remain. Delegation works sometimes but feels inconsistent. <strong>This is where most founders are.</strong></p><p>You\'re the bottleneck in specific areas. Every handoff requires explanation in certain domains.</p>';
+            } else {
+                interpretation = '<p>Your systems aren\'t ready for delegation yet. Every handoff requires extensive explanation. <strong>Fixing this will 10x your leverage.</strong></p><p>You can\'t fully unplug. New hires take weeks to get up to speed.</p>';
+            }
+            
+            if (section1 < 7) {
+                recommendations += '<p><strong>Start with Information Architecture (Section 1).</strong> Your files and folder structure need fixing first. Build the 7-folder framework and naming convention system.</p>';
+            }
+            if (section2 < 7) {
+                recommendations += '<p><strong>Fix your Communication Systems (Section 2).</strong> Your inbox needs structure. Implement inbox routing, labels, and decision frameworks.</p>';
+            }
+            if (section3 < 7) {
+                recommendations += '<p><strong>Build Delegation Infrastructure (Section 3).</strong> You need SOPs, handoff processes, and tracking systems before you can delegate effectively.</p>';
+            }
+            
+            if (!recommendations) {
+                recommendations = '<p>Focus on maintaining your current systems and refining edge cases.</p>';
+            }
+            
+            document.getElementById('interpretation').innerHTML = interpretation;
+            document.getElementById('recommendations').innerHTML = recommendations;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

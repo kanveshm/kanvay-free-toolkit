@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox Triage Map | KANVAY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 80px 40px; }
+        
+        .header { 
+            margin-bottom: 80px; 
+            padding-bottom: 40px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .logo { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            color: #666666;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        
+        .header h1 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        .header p { 
+            font-size: 1.125rem;
+            color: #666666;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        
+        .card { 
+            background: #fafafa;
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            border-radius: 2px;
+        }
+        
+        .card h2 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        .card h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+            letter-spacing: -0.01em;
+        }
+        
+        .card h4 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+            letter-spacing: -0.005em;
+        }
+        
+        .card p { 
+            color: #4a4a4a;
+            margin-bottom: 24px;
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .hero-card { 
+            background: linear-gradient(to bottom, #f9f9f9 0%, #ffffff 100%);
+            border: 1px solid #e8e8e8;
+        }
+        
+        .section-label { 
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #999999;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e8e8e8, transparent);
+            margin: 50px 0;
+        }
+        
+        .matrix-container {
+            border: 1px solid #d0d0d0;
+            margin: 40px auto;
+            max-width: 900px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .grid-2x2 { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 0; 
+        }
+        
+        .box { 
+            padding: 50px 40px; 
+            background: #ffffff; 
+            transition: all 0.3s ease;
+            position: relative;
+            border: none;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .box:hover { 
+            background: #fafafa;
+        }
+        
+        .box:nth-child(1) { border-right: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; }
+        .box:nth-child(2) { border-bottom: 1px solid #e8e8e8; }
+        .box:nth-child(3) { border-right: 1px solid #e8e8e8; }
+        
+        .box h4 { 
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e8e8e8;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            letter-spacing: 0.02em;
+        }
+        
+        .box ul { 
+            list-style: none;
+            margin-bottom: 28px;
+            flex-grow: 1;
+        }
+        
+        .box li { 
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+            color: #666666;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .box li:before { 
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: 400;
+            color: #cccccc;
+        }
+        
+        .box-action { 
+            padding: 14px 20px;
+            background: #1a1a1a;
+            color: #ffffff;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-align: center;
+            border-radius: 2px;
+        }
+        
+        .example-box { 
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            font-size: 0.9375rem;
+            border-left: 2px solid #e8e8e8;
+            background: #fafafa;
+            color: #4a4a4a;
+            border-radius: 2px;
+            line-height: 1.6;
+        }
+        
+        .step { 
+            display: flex;
+            gap: 28px;
+            margin-bottom: 24px;
+            padding: 28px;
+            border: 1px solid #e8e8e8;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .step:hover { 
+            background: #f5f5f5;
+        }
+        
+        .step-number { 
+            width: 44px;
+            height: 44px;
+            background: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            flex-shrink: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            border-radius: 2px;
+        }
+        
+        .step-content h4 { 
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .step-content p { 
+            font-size: 0.9375rem;
+            margin: 0;
+            margin-bottom: 6px;
+            color: #666666;
+            line-height: 1.6;
+        }
+        
+        .cta-card { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 60px 50px;
+            margin-top: 60px;
+            border-radius: 4px;
+        }
+        
+        .cta-card h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 1.75rem;
+            margin-bottom: 24px;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }
+        
+        .cta-card p { 
+            color: #b3b3b3;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .checkmark { 
+            color: #666666;
+            margin-right: 12px;
+            font-weight: 400;
+        }
+        
+        .divider { 
+            height: 1px;
+            background: #f0f0f0;
+            margin: 40px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 60px 24px; }
+            .header { margin-bottom: 80px; padding-bottom: 40px; }
+            .header h1 { font-size: 2.25rem; }
+            .card { padding: 50px 32px; margin-bottom: 40px; }
+            .card h2 { font-size: 1.5rem; }
+            .cta-card { padding: 50px 32px; }
+            .matrix-container { margin: 40px 0; }
+            .grid-2x2 { grid-template-columns: 1fr; }
+            .box { padding: 40px 28px; }
+            .box:nth-child(1) { border-right: none; border-bottom: 1px solid #e8e8e8; }
+            .box:nth-child(2) { border-bottom: 1px solid #e8e8e8; }
+            .box:nth-child(3) { border-right: none; border-bottom: 1px solid #e8e8e8; }
+            .box:nth-child(4) { border-bottom: none; }
+            .section-divider { margin: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">KANVAY</div>
+            <h1>Inbox Triage Map</h1>
+            <p>Turn inbox chaos into four clear paths. A decision framework you can use every time you open email.</p>
+        </div>
+
+        <div class="card hero-card">
+            <div class="section-label">Resource 01</div>
+            <h2>The Inbox Triage Map</h2>
+            <p>Most inbox chaos isn't about volume. It's about decision fatigue. This system eliminates that.</p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>The Problem</h3>
+            <p>Every email forces a micro-decision: Is this urgent? Should I reply now? Where does this go? When your system can't answer those questions automatically, your inbox becomes a full-time job.</p>
+            <p>The solution isn't discipline or willpower. It's structure.</p>
+        </div>
+
+        <div class="card">
+            <h3>The 4-Box System</h3>
+            
+            <div class="matrix-container">
+            <div class="grid-2x2">
+                <div class="box">
+                    <h4>ACTION NOW</h4>
+                    <ul>
+                        <li>Requires reply within 24 hours</li>
+                        <li>Blocks someone else's work</li>
+                        <li>Time-sensitive deadline</li>
+                        <li>Client-facing urgency</li>
+                    </ul>
+                    <div class="box-action">Reply & archive</div>
+                </div>
+
+                <div class="box">
+                    <h4>ACTION LATER</h4>
+                    <ul>
+                        <li>Needs response but not urgent</li>
+                        <li>Can be batched with similar tasks</li>
+                        <li>Requires thoughtful reply</li>
+                        <li>No immediate deadline</li>
+                    </ul>
+                    <div class="box-action">Move to folder</div>
+                </div>
+
+                <div class="box">
+                    <h4>WAITING</h4>
+                    <ul>
+                        <li>You delegated this task</li>
+                        <li>Ball is in their court</li>
+                        <li>Needs tracking for follow-up</li>
+                        <li>Awaiting someone's response</li>
+                    </ul>
+                    <div class="box-action">Track it</div>
+                </div>
+
+                <div class="box">
+                    <h4>ARCHIVE</h4>
+                    <ul>
+                        <li>FYI only, no action needed</li>
+                        <li>Receipt or record keeping</li>
+                        <li>Newsletter or digest</li>
+                        <li>Already handled elsewhere</li>
+                    </ul>
+                    <div class="box-action">Archive immediately</div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>Real Examples Mapped</h3>
+            
+            <h4>ACTION NOW</h4>
+            <div class="example-box">"Can you send me the deck before the 3pm call?"</div>
+            <div class="example-box">"Client asking about invoice #1234 — they didn't receive it"</div>
+            <div class="example-box">"Meeting moved to 2pm today — can you still make it?"</div>
+
+            <div class="divider"></div>
+
+            <h4>ACTION LATER</h4>
+            <div class="example-box">"When you have time, can we discuss Q2 budget?"</div>
+            <div class="example-box">"Thoughts on this candidate for the ops role?"</div>
+            <div class="example-box">Monthly expense report from accounting</div>
+
+            <div class="divider"></div>
+
+            <h4>WAITING</h4>
+            <div class="example-box">Your sent message: "Hey John, did you finalize that contract?" (2 days ago)</div>
+            <div class="example-box">Vendor reply: "I'll get back to you by EOD Thursday"</div>
+
+            <div class="divider"></div>
+
+            <h4>ARCHIVE</h4>
+            <div class="example-box">Newsletter subscriptions</div>
+            <div class="example-box">"Thanks!" with no follow-up needed</div>
+            <div class="example-box">Automated system notifications</div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>The Decision Gates</h3>
+            <p style="margin-bottom: 40px;">Follow this logic for every new email:</p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Does this require MY action?</h4>
+                    <p>NO → Archive immediately</p>
+                    <p>YES → Continue to step 2</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Is someone blocked or waiting on me?</h4>
+                    <p>YES → Action Now</p>
+                    <p>NO → Continue to step 3</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Did I delegate this or am I waiting on someone?</h4>
+                    <p>YES → Waiting</p>
+                    <p>NO → Continue to step 4</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Response needed within 24 hours?</h4>
+                    <p>YES → Action Now</p>
+                    <p>NO → Action Later</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>Maintenance Rules</h3>
+            <p><span class="checkmark">•</span><strong>Action Now:</strong> Process twice daily (10am, 4pm)</p>
+            <p><span class="checkmark">•</span><strong>Action Later:</strong> Batch once daily (end of day)</p>
+            <p><span class="checkmark">•</span><strong>Waiting:</strong> Review every Monday morning</p>
+            <p style="margin-bottom: 0;"><span class="checkmark">•</span><strong>Archive:</strong> Do it aggressively and immediately</p>
+        </div>
+
+        <div class="cta-card">
+            <h3>This is just the triage layer.</h3>
+            <p>Imagine if your entire inbox was already structured like this: automated routing, clear labels, decision logic built in.</p>
+            <p>That's what I build. Starting at $300. Custom packages available for inbox, files, and delegation systems.</p>
+        </div>
+    </div>
+</body>
+</html>

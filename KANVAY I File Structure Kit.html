@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Structure Kit | KANVAY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 80px 40px; }
+        
+        .header { 
+            margin-bottom: 80px; 
+            padding-bottom: 40px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .logo { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            color: #666666;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        
+        .header h1 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        .header p { 
+            font-size: 1.125rem;
+            color: #666666;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        
+        .card { 
+            background: #fafafa;
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            border-radius: 2px;
+        }
+        
+        .card h2 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        .card h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+            letter-spacing: -0.01em;
+        }
+        
+        .card h4 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+            letter-spacing: -0.005em;
+        }
+        
+        .card p { 
+            color: #4a4a4a;
+            margin-bottom: 24px;
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .hero-card { 
+            background: linear-gradient(to bottom, #f9f9f9 0%, #ffffff 100%);
+            border: 1px solid #e8e8e8;
+        }
+        
+        .section-label { 
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #999999;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e8e8e8, transparent);
+            margin: 50px 0;
+        }
+        
+        .folder-tree { 
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9375rem;
+            margin: 40px 0;
+            overflow-x: auto;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+        
+        .info-note { 
+            background: #fafafa;
+            border-left: 2px solid #e8e8e8;
+            padding: 24px 28px;
+            margin: 32px 0;
+            border-radius: 2px;
+        }
+        
+        .info-note p { 
+            color: #4a4a4a;
+            font-size: 0.9375rem;
+            margin: 0;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        
+        .border-left { 
+            border-left: 2px solid #e8e8e8;
+            padding-left: 24px;
+            margin-bottom: 28px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+        
+        .step { 
+            display: flex;
+            gap: 28px;
+            margin-bottom: 24px;
+            padding: 28px;
+            border: 1px solid #e8e8e8;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .step:hover { 
+            background: #f5f5f5;
+        }
+        
+        .step-number { 
+            width: 44px;
+            height: 44px;
+            background: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            flex-shrink: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            border-radius: 2px;
+        }
+        
+        .step-content h4 { 
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .step-content p { 
+            font-size: 0.9375rem;
+            margin: 0;
+            color: #666666;
+            line-height: 1.6;
+        }
+        
+        .cta-card { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 60px 50px;
+            margin-top: 60px;
+            border-radius: 4px;
+        }
+        
+        .cta-card h3 { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 1.75rem;
+            margin-bottom: 24px;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }
+        
+        .cta-card p { 
+            color: #b3b3b3;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .checkmark { 
+            color: #666666;
+            margin-right: 12px;
+            font-weight: 400;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 60px 24px; }
+            .header { margin-bottom: 60px; padding-bottom: 32px; }
+            .header h1 { font-size: 2.25rem; }
+            .card { padding: 40px 32px; margin-bottom: 32px; }
+            .card h2 { font-size: 1.5rem; }
+            .cta-card { padding: 40px 32px; }
+            .folder-tree { padding: 28px; }
+            .section-divider { margin: 40px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">KANVAY</div>
+            <h1>File Structure Starter Kit</h1>
+            <p>A plug-and-play folder architecture you can implement in 30 minutes.</p>
+        </div>
+
+        <div class="card hero-card">
+            <div class="section-label">Resource 02</div>
+            <h2>The File Structure Starter Kit</h2>
+            <p>Most file chaos happens because structure is topic-based instead of function-based. This fixes that.</p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>The 10-Second Rule</h3>
+            <p style="font-size: 1.125rem; font-weight: 500; color: #1a1a1a;">If you can't find a file in 10 seconds, the system failed — not you.</p>
+            <p style="margin-bottom: 0;">When files are organized by function instead of topic, everything becomes findable. When there's a clear naming logic, everyone can follow it.</p>
+        </div>
+
+        <div class="card">
+            <h3>The 7-Folder Framework</h3>
+            
+            <div class="folder-tree">
+📁 Drive Root<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 00_Active_Projects<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 01_Clients<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 02_Operations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 03_Team<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 04_Finance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 05_Marketing<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 ARCHIVE
+            </div>
+
+            <div class="info-note">
+                <p><strong>Why 7 folders?</strong> The human brain processes 5-9 categories optimally. These are function-based (what you DO with files) not topic-based (what files are ABOUT). This eliminates "where does this go?" decisions.</p>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>What Goes Where</h3>
+
+            <div class="border-left">
+                <h4>00_Active_Projects</h4>
+                <p style="margin-bottom: 0;">Current initiatives with deadlines. Time-bound work. Moved to archive when complete.</p>
+            </div>
+
+            <div class="border-left">
+                <h4>01_Clients</h4>
+                <p style="margin-bottom: 0;">One subfolder per client. All client materials in one place. Contracts, deliverables, communications, invoices.</p>
+            </div>
+
+            <div class="border-left">
+                <h4>02_Operations</h4>
+                <p style="margin-bottom: 0;">SOPs, templates, processes. Internal systems documentation. Recurring workflows.</p>
+            </div>
+
+            <div class="border-left">
+                <h4>03_Team</h4>
+                <p style="margin-bottom: 0;">HR documents, meeting notes, internal communications. Team policies and procedures.</p>
+            </div>
+
+            <div class="border-left">
+                <h4>04_Finance</h4>
+                <p style="margin-bottom: 0;">Invoices, receipts, statements, tax documents, budgets. Organized by year and quarter.</p>
+            </div>
+
+            <div class="border-left">
+                <h4>05_Marketing</h4>
+                <p style="margin-bottom: 0;">Assets, campaigns, analytics, brand materials. Everything external-facing.</p>
+            </div>
+
+            <div class="border-left">
+                <h4>ARCHIVE</h4>
+                <p style="margin-bottom: 0;">Completed projects, inactive clients, old versions. Anything over 1 year old moves here.</p>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>The Naming Convention</h3>
+            
+            <div style="background: #f5f5f5; padding: 32px; border: 1px solid #e8e8e8; margin: 32px 0; border-radius: 4px;">
+                <p style="font-weight: 500; margin-bottom: 16px; color: #1a1a1a;">The Formula:</p>
+                <p style="font-family: 'Courier New', monospace; font-size: 1.125rem; color: #1a1a1a; margin-bottom: 24px; font-weight: 500;">YYYY-MM-DD_Category_Description_Version</p>
+                
+                <div style="background: #ffffff; padding: 16px; border: 1px solid #e8e8e8; font-family: 'Courier New', monospace; margin-bottom: 12px; border-radius: 2px; color: #4a4a4a;">2025-01-15_Contract_Acme_Corp_v2</div>
+                <div style="background: #ffffff; padding: 16px; border: 1px solid #e8e8e8; font-family: 'Courier New', monospace; margin-bottom: 12px; border-radius: 2px; color: #4a4a4a;">2025-01_Invoice_Client_ABC_final</div>
+                <div style="background: #ffffff; padding: 16px; border: 1px solid #e8e8e8; font-family: 'Courier New', monospace; border-radius: 2px; color: #4a4a4a;">2025-Q1_Report_Sales_Performance</div>
+            </div>
+
+            <p><span class="checkmark">•</span><strong>Dates first (always):</strong> Files sort chronologically automatically</p>
+            <p><span class="checkmark">•</span><strong>No spaces (use underscores):</strong> Prevents issues across different systems</p>
+            <p><span class="checkmark">•</span><strong>Descriptive but concise:</strong> Should know what it is without opening it</p>
+            <p style="margin-bottom: 0;"><span class="checkmark">•</span><strong>Version at end:</strong> v1, v2, v3 or draft, final, approved</p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="card">
+            <h3>30-Minute Implementation</h3>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Create the 7 folders (5 minutes)</h4>
+                    <p>Copy the exact structure above into your Drive</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Move obvious files first (10 minutes)</h4>
+                    <p>Client files → 01_Clients, invoices → 04_Finance, etc.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Rename as you go (ongoing)</h4>
+                    <p>Use the naming formula. Start with new files, fix old ones gradually</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Archive old files (15 minutes)</h4>
+                    <p>Anything over 1 year old goes to ARCHIVE folder</p>
+                </div>
+            </div>
+
+            <div style="background: #fafafa; border: 1px solid #e8e8e8; padding: 24px; margin-top: 32px; border-radius: 2px;">
+                <p style="margin: 0; font-weight: 500; color: #1a1a1a;"><strong>Total time: 30 minutes</strong> to transform chaos into searchable, scalable structure.</p>
+            </div>
+        </div>
+
+        <div class="cta-card">
+            <h3>This is just the foundation.</h3>
+            <p>Imagine if every file was already organized, named correctly, and findable in under 10 seconds. No more "where did I save that?" moments.</p>
+            <p>That's what I build. Starting at $300. Custom packages available for inbox, files, and delegation systems.</p>
+        </div>
+    </div>
+</body>
+</html>
